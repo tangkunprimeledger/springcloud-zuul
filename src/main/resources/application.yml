@@ -1,0 +1,72 @@
+yaml:
+  str:  字符串可以不加引号
+  specialStr: "双引号直接输出\n特殊字符"
+  specialStr2: '单引号可以转义\n特殊字符'
+  flag: false
+  num: 666
+  Dnum: 88.88
+  list:
+    - one
+    - two
+    - two
+  set: [1,2,2,3]
+  map: {k1: v1, k2: v2}
+  positions:
+    - name: ITDragon
+      salary: 15000.00
+    - name: ITDragonBlog
+      salary: 18888.88
+
+zuul:
+  ignored-services: "*"
+  #路由
+  routes:
+    user: /api/**
+    book: /bapi/**
+    zuul: /**
+  #流控
+  semaphore:
+    max-semaphores: 100
+#开启访问权限
+#management.endpoints
+hystrix:
+  command:
+##    zuul-service:
+##      execution:
+##        isolation:
+##          thread:
+##            timeoutInMilliseconds: 20000
+    showYaml:
+      circuitBreaker:
+        enabled: true
+        requestVolumeThreshold: 10
+        sleepWindowInMilliseconds: 1000
+        errorThresholdPercentage: 20
+#
+#zuul-service:
+#  ribbon:
+#    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+#    listOfServers: https://example1.com,http://example2.com
+#    ConnectTimeout: 1000
+#    ReadTimeout: 3000
+#    MaxTotalHttpConnections: 500
+#    MaxConnectionsPerHost: 100
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: zuul-service
+
+logging:
+  level:
+    root: debug
+    org:
+      springframework:
+        zuul: debug
+
+#启动feign hystrix ，启用所有的方法都会转为阻断器
+feign:
+  hystrix:
+    enabled: true
